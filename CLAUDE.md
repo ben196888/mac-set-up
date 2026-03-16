@@ -38,4 +38,5 @@ There are no build, lint, or test commands — this is a shell-based installer w
 
 - **Homebrew prefix**: Always use the `BREW_PREFIX` variable (set in `essential.sh` based on arch) rather than hardcoding paths. `/opt/homebrew` on Apple Silicon, `/usr/local` on Intel.
 - **Conditional tool init in `.zshrc`**: All tool initializations (pyenv, Poetry, SDKMAN, etc.) are wrapped in `command -v <tool> >/dev/null 2>&1` guards so the shell doesn't break if a tool isn't installed.
-- **Config files live alongside installers**: `git/.gitconfig` and `git/.gitignore_global` are symlinked/copied by `git/install.sh`; `zsh/.zshrc` is managed by `zsh/install.sh`.
+- **Config files live alongside installers**: `git/.gitconfig` and `git/.gitignore_global` are copied by `git/install.sh`; `zsh/.zshrc` is managed by `zsh/install.sh`.
+- **Always use `cp`, never symlinks**: All install scripts must copy files/directories to their destination (e.g. `cp`, `cp -r`). Never use `ln -s` or `ln -sf`. This is a hard rule — do not change it.
