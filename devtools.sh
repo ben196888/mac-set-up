@@ -18,4 +18,8 @@ brew install --cask google-cloud-sdk
 # ChatGPT desktop app (OpenAI)
 brew install --cask chatgpt
 
+# Claude Code (AI coding assistant)
+echo "Installing Claude Code..."
+curl -fsSL https://claude.ai/install.sh | bash
+
 echo "Developer tools installation complete."
