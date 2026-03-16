@@ -31,7 +31,7 @@ There are no build, lint, or test commands — this is a shell-based installer w
 8. **`browsers.sh`** — Firefox (default), Chrome, Edge, DuckDuckGo
 9. **`devtools.sh`** — OrbStack, kubectl, Postman, Google Cloud SDK, ChatGPT, Claude Code
 9.5. **`claude/install.sh`** — Symlinks `claude/settings.json` and `claude/commands/` into `~/.claude/`
-10. **`tools.sh`** — AppCleaner, Spotify, Slack, Messenger, Signal, Discord, Rectangle, Raycast
+10. **`tools.sh`** — AppCleaner, Spotify, Slack, Messenger, Signal, Discord, Rectangle
 11. **`macos.sh`** — System defaults: Dock (auto-hide, left position), trackpad (tap-to-click, 3-finger drag, max speed), keyboard (Caps Lock→Control), input source shortcuts, Spotlight disabling
 
 ## Key Conventions

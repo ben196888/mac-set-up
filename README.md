@@ -20,7 +20,7 @@ Automate the installation and configuration of a full macOS development environm
 | 8 | `browsers.sh` | Firefox (set as default), Chrome, Edge, DuckDuckGo |
 | 9 | `devtools.sh` | OrbStack, kubectl, Postman, Google Cloud SDK, ChatGPT, Claude Code |
 | 9.5 | `claude/install.sh` | Symlinks `claude/settings.json` and `claude/commands/` into `~/.claude/` |
-| 10 | `tools.sh` | AppCleaner, Spotify, Slack, Messenger, Signal, Discord, Rectangle, Raycast |
+| 10 | `tools.sh` | AppCleaner, Spotify, Slack, Messenger, Signal, Discord, Rectangle |
 | 11 | `macos.sh` | Dock (auto-hide, left), trackpad (tap-to-click, 3-finger drag, max speed), keyboard (Caps Lock→Control), input source shortcuts, Spotlight disabling |
 
 Config files (`git/.gitconfig`, `git/.gitignore_global`, `zsh/.zshrc`) live alongside their installer scripts and are symlinked/copied during setup.
@@ -73,7 +73,7 @@ chmod +x install.sh
 - **Terminal**: Ghostty + shell utilities
 - **Languages**: Go, Python, Node (via n), Rust, Java (via SDKMAN), .NET (via Homebrew), LaTeX
 - **Browsers**: Firefox, Chrome, Edge, DuckDuckGo
-- **Dev Tools**: OrbStack (Docker), kubectl, Postman, Google Cloud SDK, ChatGPT, Raycast
+- **Dev Tools**: OrbStack (Docker), kubectl, Postman, Google Cloud SDK, ChatGPT
 - **System Preferences**: Dock, trackpad gestures, key remapping, fast repeat rate
 
 ---
@@ -89,7 +89,7 @@ chmod +x install.sh
 ## 🧩 Optional Improvements
 
 - Implement checkpoint/resume mechanism to allow interrupted installations to continue from the last successful step
-- Add login item setup via `osascript` (e.g., for Raycast or Rectangle)
+- Add login item setup via `osascript` (e.g., for Rectangle)
 - Add versioned `global.json` for .NET SDK pinning
 - Add sync logic for VS Code extensions
 - Sync Claude Code settings and custom commands via this repo

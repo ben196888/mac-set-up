@@ -18,7 +18,4 @@ brew install --cask discord
 # Window manager
 brew install --cask rectangle
 
-# Productivity tools
-brew install --cask raycast
-
 echo "Other tools installation complete."
