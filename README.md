@@ -4,36 +4,25 @@ Automate the installation and configuration of a full macOS development environm
 
 ---
 
-## 📁 Folder Structure
+## 📁 Architecture
 
-```bash
-.
-├── git/
-│   ├── .gitconfig
-│   ├── .gitignore_global
-│   └── install.sh
-├── languages/
-│   ├── dotnet.sh
-│   ├── go.sh
-│   ├── java.sh
-│   ├── javascript.sh
-│   ├── latex.sh
-│   ├── python.sh
-│   └── rust.sh
-├── zsh/
-│   ├── .zshrc
-│   └── install.sh
-├── browsers.sh
-├── cli_tools.sh
-├── devtools.sh
-├── essential.sh
-├── ides.sh
-├── install.sh
-├── macos.sh
-├── terminal.sh
-├── tools.sh
-└── README.md
-```
+`install.sh` is the orchestrator — it executes all other scripts in order:
+
+| Step | Script | What it does |
+|------|--------|-------------|
+| 1 | `essential.sh` | Xcode CLT, Rosetta 2, Homebrew (auto-detects Apple Silicon vs Intel path) |
+| 2 | `cli_tools.sh` | OpenSSL, ripgrep, tree, ack |
+| 3 | `git/install.sh` | Git config, ed25519 SSH key generation, GitHub CLI auth |
+| 4 | `zsh/install.sh` | Zsh, Oh My Zsh, Starship prompt |
+| 5 | `terminal.sh` | Warp terminal |
+| 6 | `languages/` | One script per language: `javascript.sh` (n + npm/yarn/pnpm/Deno), `python.sh` (pyenv + Poetry), `rust.sh`, `go.sh`, `java.sh` (SDKMAN), `dotnet.sh`, `latex.sh` |
+| 7 | `ides.sh` | VS Code, Cursor |
+| 8 | `browsers.sh` | Firefox (set as default), Chrome, Edge, DuckDuckGo |
+| 9 | `devtools.sh` | OrbStack, kubectl, Postman, Google Cloud SDK, ChatGPT |
+| 10 | `tools.sh` | AppCleaner, Spotify, Slack, Messenger, Signal, Discord, Rectangle, Raycast |
+| 11 | `macos.sh` | Dock (auto-hide, left), trackpad (tap-to-click, 3-finger drag, max speed), keyboard (Caps Lock→Control), input source shortcuts, Spotlight disabling |
+
+Config files (`git/.gitconfig`, `git/.gitignore_global`, `zsh/.zshrc`) live alongside their installer scripts and are symlinked/copied during setup.
 
 ---
 
