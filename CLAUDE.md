@@ -25,7 +25,7 @@ There are no build, lint, or test commands — this is a shell-based installer w
 2. **`cli_tools.sh`** — OpenSSL, ripgrep, tree, ack
 3. **`git/install.sh`** — Git config, ed25519 SSH key generation, GitHub CLI auth
 4. **`zsh/install.sh`** — Zsh, Oh My Zsh, Starship prompt
-5. **`terminal.sh`** — Warp terminal
+5. **`terminal.sh`** — Ghostty terminal
 6. **`languages/`** — One script per language: `javascript.sh` (n + npm/yarn/pnpm/Deno), `python.sh` (pyenv + Poetry), `rust.sh`, `go.sh`, `java.sh` (SDKMAN), `dotnet.sh`, `latex.sh`
 7. **`ides.sh`** — VS Code, Cursor
 8. **`browsers.sh`** — Firefox (default), Chrome, Edge, DuckDuckGo

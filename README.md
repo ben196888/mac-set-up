@@ -14,7 +14,7 @@ Automate the installation and configuration of a full macOS development environm
 | 2 | `cli_tools.sh` | OpenSSL, ripgrep, tree, ack |
 | 3 | `git/install.sh` | Git config, ed25519 SSH key generation, GitHub CLI auth |
 | 4 | `zsh/install.sh` | Zsh, Oh My Zsh, Starship prompt |
-| 5 | `terminal.sh` | Warp terminal |
+| 5 | `terminal.sh` | Ghostty terminal |
 | 6 | `languages/` | One script per language: `javascript.sh` (n + npm/yarn/pnpm/Deno), `python.sh` (pyenv + Poetry), `rust.sh`, `go.sh`, `java.sh` (SDKMAN), `dotnet.sh`, `latex.sh` |
 | 7 | `ides.sh` | VS Code, Cursor |
 | 8 | `browsers.sh` | Firefox (set as default), Chrome, Edge, DuckDuckGo |
@@ -69,7 +69,7 @@ chmod +x install.sh
 - **Zsh config**: with Starship, Oh My Zsh, and language-aware prompts
 - **Git setup**: with aliases, delta, and conditional editor logic
 - **VS Code + Cursor**: with settings sync and optional extension restore
-- **Terminal**: Warp + shell utilities
+- **Terminal**: Ghostty + shell utilities
 - **Languages**: Go, Python, Node (via n), Rust, Java (via SDKMAN), .NET (via Homebrew), LaTeX
 - **Browsers**: Firefox, Chrome, Edge, DuckDuckGo
 - **Dev Tools**: OrbStack (Docker), kubectl, Postman, Google Cloud SDK, ChatGPT, Raycast

@@ -10,7 +10,7 @@ source ./essential.sh
 ./git/install.sh
 # Install zsh, oh my zsh, plugins, starship
 ./zsh/install.sh
-# Install terminal apps (warp)
+# Install terminal apps (ghostty)
 ./terminal.sh
 
 # Install languages (rust, java, node, deno, python, latex, go)

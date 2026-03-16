@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
 
-echo "Installing Warp..."
-brew install --cask warp
-echo "Warp installation complete."
+echo "Installing Ghostty..."
+brew install --cask ghostty
+echo "Ghostty installation complete."
