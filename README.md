@@ -19,6 +19,7 @@ Automate the installation and configuration of a full macOS development environm
 | 7 | `ides.sh` | VS Code, Cursor |
 | 8 | `browsers.sh` | Firefox (set as default), Chrome, Edge, DuckDuckGo |
 | 9 | `devtools.sh` | OrbStack, kubectl, Postman, Google Cloud SDK, ChatGPT, Claude Code |
+| 9.5 | `claude/install.sh` | Symlinks `claude/settings.json` and `claude/commands/` into `~/.claude/` |
 | 10 | `tools.sh` | AppCleaner, Spotify, Slack, Messenger, Signal, Discord, Rectangle, Raycast |
 | 11 | `macos.sh` | Dock (auto-hide, left), trackpad (tap-to-click, 3-finger drag, max speed), keyboard (Caps Lock→Control), input source shortcuts, Spotlight disabling |
 

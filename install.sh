@@ -28,6 +28,8 @@ source ./essential.sh
 ./browsers.sh
 # Install developer tools (orbstack, kubectl, postman, google cloud SDK)
 ./devtools.sh
+# Setup Claude Code configuration (settings, custom commands)
+./claude/install.sh
 # Install other tools
 ./tools.sh
 
