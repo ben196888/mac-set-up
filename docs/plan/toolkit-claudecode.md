@@ -8,9 +8,10 @@ Add a `claude/` directory to this repo that manages personal Claude Code configu
 
 ### `claude/install.sh`
 
-Installs Claude Code configuration into `~/.claude/`:
-- Symlink or copy `settings.json` → `~/.claude/settings.json`
-- Symlink or copy `commands/` → `~/.claude/commands/`
+Installs Claude Code configuration into `~/.claude/` via copy (not symlink):
+- `settings.json` → `~/.claude/settings.json`
+- `commands/` → `~/.claude/commands/`
+- `skills/` → `~/.claude/skills/`
 
 ### `claude/settings.json`
 
