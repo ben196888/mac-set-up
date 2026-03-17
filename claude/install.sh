@@ -4,6 +4,40 @@ set -e
 BASEDIR=$(dirname "$0")
 CLAUDE_DIR="$HOME/.claude"
 
+# Parse flags
+YES=false
+for arg in "$@"; do
+  case "$arg" in
+    -y|--yes) YES=true ;;
+  esac
+done
+
+# Detect interactive terminal
+if [ "$YES" = true ] || ! [ -t 0 ] && ! [ -e /dev/tty ]; then
+  INTERACTIVE=false
+else
+  INTERACTIVE=true
+fi
+
+# Helper: ask to overwrite, respects -y flag and non-interactive mode
+should_overwrite() {
+  local name="$1"
+  local kind="$2"
+  if [ "$YES" = true ]; then
+    return 0
+  fi
+  if [ "$INTERACTIVE" = false ]; then
+    echo "  → Non-interactive: skipping existing $kind '$name'"
+    return 1
+  fi
+  printf "  %s '%s' already exists. Overwrite? [y/N] " "$kind" "$name"
+  read -r answer </dev/tty
+  case "$answer" in
+    [yY]*) return 0 ;;
+    *)     return 1 ;;
+  esac
+}
+
 echo "Setting up Claude Code configuration..."
 
 # Copy settings.json
@@ -20,12 +54,12 @@ for src in "$BASEDIR/commands"/*.md; do
   name=$(basename "$src")
   dest="$CLAUDE_DIR/commands/$name"
   if [ -e "$dest" ]; then
-    printf "  Command '%s' already exists. Overwrite? [y/N] " "$name"
-    read -r answer </dev/tty
-    case "$answer" in
-      [yY]*) cp "$src" "$dest"; echo "  → Overwritten: $name" ;;
-      *)     echo "  → Skipped: $name" ;;
-    esac
+    if should_overwrite "$name" "Command"; then
+      cp "$src" "$dest"
+      echo "  → Overwritten: $name"
+    else
+      echo "  → Skipped: $name"
+    fi
   else
     cp "$src" "$dest"
     echo "  Added command: $name"
@@ -38,12 +72,12 @@ for src in "$BASEDIR/skills"/*/; do
   name=$(basename "$src")
   dest="$CLAUDE_DIR/skills/$name"
   if [ -e "$dest" ]; then
-    printf "  Skill '%s' already exists. Overwrite? [y/N] " "$name"
-    read -r answer </dev/tty
-    case "$answer" in
-      [yY]*) cp -r "$src" "$dest"; echo "  → Overwritten: $name" ;;
-      *)     echo "  → Skipped: $name" ;;
-    esac
+    if should_overwrite "$name" "Skill"; then
+      cp -r "$src" "$dest"
+      echo "  → Overwritten: $name"
+    else
+      echo "  → Skipped: $name"
+    fi
   else
     cp -r "$src" "$dest"
     echo "  Added skill: $name"
