@@ -26,10 +26,17 @@ Candidates to add:
 - `/review-pr` — review open PR, summarize findings
 - `/simplify` — review changed code for reuse, quality, and efficiency
 
+### `claude/skills/` ✅
+
+Skills that shape Claude's persistent behavior across all sessions.
+
+- `development-workflow` ✅ — 4-step dev cycle (Plan → Ask → Document → Implement)
+- `search-code` ✅ — agent-optimized search strategy (rg → ast-grep → git)
+
 ## Integration
 
-- Call `claude/install.sh` from the root `install.sh` after `devtools.sh` (step 9)
-- Update architecture table in `README.md` and `CLAUDE.md` to include the new `claude/` step
+- Call `claude/install.sh` from the root `install.sh` after `devtools.sh` (step 9) ✅
+- Update architecture table in `README.md` and `CLAUDE.md` to include the new `claude/` step ✅
 
 ## Out of scope
 
