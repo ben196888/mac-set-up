@@ -30,4 +30,9 @@ else
   echo "skills/ already exists at $CLAUDE_DIR/skills — skipping"
 fi
 
+# Copy MCP config (always overwrite to pick up server changes)
+cp -f "$BASEDIR/mcp.json" "$CLAUDE_DIR/mcp.json"
+echo "Copied mcp.json"
+
 echo "Claude Code configuration complete."
+echo "NOTE: Discord MCP requires DISCORD_TOKEN to be set in your environment."
