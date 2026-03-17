@@ -37,18 +37,27 @@ If anything is unclear:
 
 ## Step 3 — Document
 
-Before implementation, document:
+Before implementation, document the approach.
 
+If the scope is large or cross-cutting, write an RFC instead:
+- multiple systems affected
+- breaking changes or new contracts
+- significant architectural decisions
+- changes requiring team alignment
+
+RFC format:
+- **Problem** — what and why
+- **Proposal** — the chosen approach
+- **Alternatives considered** — what was ruled out and why
+- **Impact** — systems, APIs, data, rollout plan
+
+Otherwise, document inline:
 - architecture changes
 - data flow
 - API contracts
 - event flows
 
-Prefer structured formats:
-
-- bullet points
-- diagrams
-- markdown specs
+Prefer structured formats: bullet points, diagrams, markdown specs.
 
 ---
 
