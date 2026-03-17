@@ -6,21 +6,15 @@ Configure Discord MCP server in Claude Code so Claude can interact with Discord.
 
 ## Approach
 
-- `claude/mcp.json` — MCP server config tracked in this repo
-- `claude/install.sh` copies it to `~/.claude/mcp.json` (with `-f` to safely overwrite)
+- `claude/install.sh` registers Discord MCP at user scope via `claude mcp add`
+- Config is written to `~/.claude.json` (not `~/.claude/mcp.json` — that path is not read by Claude Code)
+- Idempotent: checks `claude mcp get discord` before registering
 - Token is NOT hardcoded — must be set as an environment variable before use
 
-## Config
+## Install command
 
-```json
-{
-  "mcpServers": {
-    "discord": {
-      "command": "npx",
-      "args": ["discord-mcp@latest"]
-    }
-  }
-}
+```bash
+claude mcp add --scope user discord -- npx -y discord-mcp@latest
 ```
 
 ## Environment variable (required)

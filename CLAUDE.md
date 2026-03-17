@@ -30,7 +30,7 @@ There are no build, lint, or test commands — this is a shell-based installer w
 7. **`ides.sh`** — VS Code, Cursor
 8. **`browsers.sh`** — Firefox (default), Chrome, Edge, DuckDuckGo
 9. **`devtools.sh`** — OrbStack, kubectl, Postman, Google Cloud SDK, ChatGPT, Claude Code, Playwright CLI
-9.5. **`claude/install.sh`** — Copies `settings.json`, `commands/`, `skills/`, and `mcp.json` into `~/.claude/`
+9.5. **`claude/install.sh`** — Copies `settings.json`, `commands/`, `skills/` into `~/.claude/`; registers MCP servers via `claude mcp add`
 10. **`tools.sh`** — AppCleaner, Spotify, Slack, Messenger, Signal, Discord, Rectangle
 11. **`macos.sh`** — System defaults: Dock (auto-hide, left position), trackpad (tap-to-click, 3-finger drag, max speed), keyboard (Caps Lock→Control), input source shortcuts, Spotlight disabling
 

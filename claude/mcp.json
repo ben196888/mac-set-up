@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "discord": {
-      "command": "npx",
-      "args": ["discord-mcp@latest"]
-    }
-  }
-}

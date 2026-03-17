@@ -30,9 +30,13 @@ else
   echo "skills/ already exists at $CLAUDE_DIR/skills — skipping"
 fi
 
-# Copy MCP config (always overwrite to pick up server changes)
-cp -f "$BASEDIR/mcp.json" "$CLAUDE_DIR/mcp.json"
-echo "Copied mcp.json"
+# Register MCP servers via claude CLI (writes to ~/.claude.json at user scope)
+if claude mcp get discord >/dev/null 2>&1; then
+  echo "Discord MCP already registered — skipping"
+else
+  claude mcp add --scope user discord -- npx -y discord-mcp@latest
+  echo "Registered Discord MCP server"
+fi
 
 echo "Claude Code configuration complete."
 echo "NOTE: Discord MCP requires DISCORD_TOKEN to be set in your environment."
