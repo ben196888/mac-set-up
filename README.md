@@ -86,6 +86,18 @@ chmod +x install.sh
 
 ---
 
+## 🗺️ Roadmap
+
+**One-liner install** — the end goal is to bootstrap a fresh Mac with a single command:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ben196888/mac-set-up/master/bootstrap.sh | sh
+```
+
+This requires a `bootstrap.sh` that clones the repo to a temp directory and runs `install.sh` from there, since `curl | sh` has no access to sibling scripts. See [`docs/plan/roadmap-oneliner.md`](docs/plan/roadmap-oneliner.md) for the full plan.
+
+---
+
 ## 🧩 Optional Improvements
 
 - Implement checkpoint/resume mechanism to allow interrupted installations to continue from the last successful step
