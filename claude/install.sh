@@ -14,21 +14,33 @@ else
   echo "settings.json already exists at $CLAUDE_DIR/settings.json — skipping"
 fi
 
-# Copy commands directory
-if [ ! -e "$CLAUDE_DIR/commands" ]; then
-  cp -r "$BASEDIR/commands" "$CLAUDE_DIR/commands"
-  echo "Copied commands/"
-else
-  echo "commands/ already exists at $CLAUDE_DIR/commands — skipping"
-fi
+# Copy commands (per-file: overwrite existing, append new)
+mkdir -p "$CLAUDE_DIR/commands"
+for src in "$BASEDIR/commands"/*.md; do
+  name=$(basename "$src")
+  dest="$CLAUDE_DIR/commands/$name"
+  if [ -e "$dest" ]; then
+    cp "$src" "$dest"
+    echo "Updated command: $name"
+  else
+    cp "$src" "$dest"
+    echo "Added command: $name"
+  fi
+done
 
-# Copy skills directory
-if [ ! -e "$CLAUDE_DIR/skills" ]; then
-  cp -r "$BASEDIR/skills" "$CLAUDE_DIR/skills"
-  echo "Copied skills/"
-else
-  echo "skills/ already exists at $CLAUDE_DIR/skills — skipping"
-fi
+# Copy skills (per-skill: overwrite existing, append new)
+mkdir -p "$CLAUDE_DIR/skills"
+for src in "$BASEDIR/skills"/*/; do
+  name=$(basename "$src")
+  dest="$CLAUDE_DIR/skills/$name"
+  if [ -e "$dest" ]; then
+    cp -r "$src" "$dest"
+    echo "Updated skill: $name"
+  else
+    cp -r "$src" "$dest"
+    echo "Added skill: $name"
+  fi
+done
 
 # Register MCP servers via claude CLI (writes to ~/.claude.json at user scope)
 if claude mcp get discord >/dev/null 2>&1; then
