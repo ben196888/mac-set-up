@@ -14,31 +14,39 @@ else
   echo "settings.json already exists at $CLAUDE_DIR/settings.json — skipping"
 fi
 
-# Copy commands (per-file: overwrite existing, append new)
+# Copy commands (per-file: prompt on existing, append new)
 mkdir -p "$CLAUDE_DIR/commands"
 for src in "$BASEDIR/commands"/*.md; do
   name=$(basename "$src")
   dest="$CLAUDE_DIR/commands/$name"
   if [ -e "$dest" ]; then
-    cp "$src" "$dest"
-    echo "Updated command: $name"
+    printf "  Command '%s' already exists. Overwrite? [y/N] " "$name"
+    read -r answer </dev/tty
+    case "$answer" in
+      [yY]*) cp "$src" "$dest"; echo "  → Overwritten: $name" ;;
+      *)     echo "  → Skipped: $name" ;;
+    esac
   else
     cp "$src" "$dest"
-    echo "Added command: $name"
+    echo "  Added command: $name"
   fi
 done
 
-# Copy skills (per-skill: overwrite existing, append new)
+# Copy skills (per-skill: prompt on existing, append new)
 mkdir -p "$CLAUDE_DIR/skills"
 for src in "$BASEDIR/skills"/*/; do
   name=$(basename "$src")
   dest="$CLAUDE_DIR/skills/$name"
   if [ -e "$dest" ]; then
-    cp -r "$src" "$dest"
-    echo "Updated skill: $name"
+    printf "  Skill '%s' already exists. Overwrite? [y/N] " "$name"
+    read -r answer </dev/tty
+    case "$answer" in
+      [yY]*) cp -r "$src" "$dest"; echo "  → Overwritten: $name" ;;
+      *)     echo "  → Skipped: $name" ;;
+    esac
   else
     cp -r "$src" "$dest"
-    echo "Added skill: $name"
+    echo "  Added skill: $name"
   fi
 done
 
