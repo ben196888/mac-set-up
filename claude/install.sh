@@ -12,13 +12,6 @@ for arg in "$@"; do
   esac
 done
 
-# Detect interactive terminal
-if [ "$YES" = true ] || ! [ -t 0 ] && ! [ -e /dev/tty ]; then
-  INTERACTIVE=false
-else
-  INTERACTIVE=true
-fi
-
 # Helper: ask to overwrite, respects -y flag and non-interactive mode
 should_overwrite() {
   local name="$1"
@@ -26,12 +19,12 @@ should_overwrite() {
   if [ "$YES" = true ]; then
     return 0
   fi
-  if [ "$INTERACTIVE" = false ]; then
+  printf "  %s '%s' already exists. Overwrite? [y/N] " "$kind" "$name"
+  if ! read -r answer </dev/tty 2>/dev/null; then
+    echo ""
     echo "  → Non-interactive: skipping existing $kind '$name'"
     return 1
   fi
-  printf "  %s '%s' already exists. Overwrite? [y/N] " "$kind" "$name"
-  read -r answer </dev/tty
   case "$answer" in
     [yY]*) return 0 ;;
     *)     return 1 ;;
