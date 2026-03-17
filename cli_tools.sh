@@ -7,6 +7,8 @@ brew install openssl
 #########################
 # Install rg to replace grep
 brew install ripgrep
+# Install ast-grep for structural code search
+brew install ast-grep
 # Install tree
 brew install tree
 # Install ack

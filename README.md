@@ -11,7 +11,7 @@ Automate the installation and configuration of a full macOS development environm
 | Step | Script | What it does |
 |------|--------|-------------|
 | 1 | `essential.sh` | Xcode CLT, Rosetta 2, Homebrew (auto-detects Apple Silicon vs Intel path) |
-| 2 | `cli_tools.sh` | OpenSSL, ripgrep, tree, ack |
+| 2 | `cli_tools.sh` | OpenSSL, ripgrep, ast-grep, tree, ack |
 | 3 | `git/install.sh` | Git config, ed25519 SSH key generation, GitHub CLI auth |
 | 4 | `zsh/install.sh` | Zsh, Oh My Zsh, Starship prompt |
 | 5 | `terminal.sh` | Ghostty terminal |

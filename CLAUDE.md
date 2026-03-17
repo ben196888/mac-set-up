@@ -22,7 +22,7 @@ There are no build, lint, or test commands — this is a shell-based installer w
 `install.sh` is the orchestrator — it sources or executes all other scripts in order:
 
 1. **`essential.sh`** — Xcode CLT, Rosetta 2, Homebrew (with Apple Silicon vs Intel path detection via `uname -m`)
-2. **`cli_tools.sh`** — OpenSSL, ripgrep, tree, ack
+2. **`cli_tools.sh`** — OpenSSL, ripgrep, ast-grep, tree, ack
 3. **`git/install.sh`** — Git config, ed25519 SSH key generation, GitHub CLI auth
 4. **`zsh/install.sh`** — Zsh, Oh My Zsh, Starship prompt
 5. **`terminal.sh`** — Ghostty terminal
