@@ -1,51 +1,127 @@
-# Prefer ripgrep over grep for code search
+# Advanced Code Search Strategy
 
-## Purpose
+## Goal
 
-When searching code in repositories, always prefer `rg` (ripgrep) instead of `grep` because it is significantly faster and respects `.gitignore`.
+Efficiently navigate and understand large codebases using the most appropriate search tool.
 
-## Rules
+---
 
-- Use `rg` instead of `grep`
-- Only fall back to `grep` if `rg` is unavailable
-- Always show line numbers and context
-- Filter by language type when possible
+## Tool Priority
 
-## Recommended patterns
+1. ripgrep (`rg`) → default
+2. ast-grep (`ast-grep`) → structural search
+3. git grep / git log → history search
+4. grep → fallback only
 
-Search text:
+---
+
+## ripgrep (rg) — Default
+
+Use for:
+- keyword search
+- debugging
+- finding usages
+- exploration
+
+Patterns:
 ```bash
 rg "pattern"
-```
-
-Search with line numbers:
-```bash
 rg -n "pattern"
-```
-
-Search with context:
-```bash
 rg -n -C 3 "pattern"
 ```
 
-Search filenames:
+Language filters:
+```bash
+rg "pattern" -t sh
+rg "pattern" -t kotlin
+rg "pattern" -t scala
+rg "pattern" -t ts
+rg "pattern" -t java
+```
+
+Find files:
 ```bash
 rg --files | rg "filename"
 ```
 
-Language-specific searches:
+---
+
+## ast-grep — Structural Search
+
+Use for:
+- function calls
+- annotations
+- API usage
+- refactoring
+
+Patterns:
 ```bash
-rg "pattern" -t sh
-rg "pattern" -t json
-rg "pattern" -t ts
-rg "pattern" -t kotlin
-rg "pattern" -t java
+ast-grep -p 'foo($ARG)'
+ast-grep -p '@GetMapping($A)'
+ast-grep -p 'val $A = $B'
 ```
 
-## Never use
-
+Rewrite:
 ```bash
-grep -R
+ast-grep -p 'var $A = $B' -r 'let $A = $B'
 ```
 
-unless `rg` is unavailable.
+---
+
+## git-aware search
+
+Use for:
+- history
+- regression debugging
+- origin tracing
+
+Patterns:
+```bash
+git grep "pattern"
+git log -S "pattern"
+git log -p path/to/file
+```
+
+---
+
+## Decision Guide
+
+- default → `rg`
+- structure → `ast-grep`
+- history → `git`
+
+---
+
+## Repo Awareness (MANDATORY)
+
+Before searching:
+- identify the correct repo
+- avoid blind cross-repo search
+- locate entrypoints first
+- then trace dependencies
+
+---
+
+## Performance Rules
+
+- always narrow scope early
+- prefer language filters
+- avoid full repo scans
+
+---
+
+## Anti-Patterns
+
+- never use `grep -R` unless required
+- do not use `ast-grep` for simple text search
+- do not scan entire repo blindly
+
+---
+
+## Expected Behavior
+
+1. start with `rg`
+2. refine with `ast-grep`
+3. use git tools if needed
+
+Think before searching. Choose the right tool.
