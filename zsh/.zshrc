@@ -82,6 +82,11 @@ bindkey -s "^[Om" "-"
 bindkey -s "^[Oj" "*"
 bindkey -s "^[Oo" "/"
 
+# Alias grep to ripgrep if installed
+if command -v rg >/dev/null 2>&1; then
+  alias grep='rg'
+fi
+
 # Alt + Arrow movement
 bindkey "^[^[[C" forward-word
 bindkey "^[^[[D" backward-word
