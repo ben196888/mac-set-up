@@ -33,6 +33,39 @@ should_overwrite() {
 
 echo "Setting up Claude Code configuration..."
 
+# Install global CLAUDE.md (user-level instructions)
+CLAUDE_MD_SRC="$BASEDIR/CLAUDE.md"
+CLAUDE_MD_DEST="$CLAUDE_DIR/CLAUDE.md"
+if [ ! -e "$CLAUDE_MD_DEST" ]; then
+  cp "$CLAUDE_MD_SRC" "$CLAUDE_MD_DEST"
+  echo "Copied global CLAUDE.md"
+elif diff -q "$CLAUDE_MD_SRC" "$CLAUDE_MD_DEST" >/dev/null 2>&1; then
+  echo "CLAUDE.md already up to date — skipping"
+else
+  echo "CLAUDE.md exists and differs from source — merging with Claude Code..."
+  EXISTING=$(cat "$CLAUDE_MD_DEST")
+  INCOMING=$(cat "$CLAUDE_MD_SRC")
+  MERGED=$(claude -p --no-input "You are merging two CLAUDE.md files into one. Preserve all unique instructions from both. Remove exact duplicates. Keep the result well-organized with clear markdown headings. Output ONLY the merged file content, no explanation.
+
+--- EXISTING ~/.claude/CLAUDE.md ---
+$EXISTING
+
+--- INCOMING claude/CLAUDE.md ---
+$INCOMING" 2>/dev/null) || true
+  if [ -n "$MERGED" ]; then
+    echo "$MERGED" > "$CLAUDE_MD_DEST"
+    echo "  → Merged CLAUDE.md with Claude Code"
+  else
+    echo "  → Claude Code merge failed — falling back to prompt"
+    if should_overwrite "CLAUDE.md" "File"; then
+      cp "$CLAUDE_MD_SRC" "$CLAUDE_MD_DEST"
+      echo "  → Overwritten: CLAUDE.md"
+    else
+      echo "  → Skipped: CLAUDE.md"
+    fi
+  fi
+fi
+
 # Copy settings.json
 if [ ! -e "$CLAUDE_DIR/settings.json" ]; then
   cp "$BASEDIR/settings.json" "$CLAUDE_DIR/settings.json"
