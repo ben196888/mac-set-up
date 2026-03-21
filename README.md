@@ -20,6 +20,7 @@ Automate the installation and configuration of a full macOS development environm
 | 8 | `browsers.sh` | Firefox (set as default), Chrome, Edge, DuckDuckGo |
 | 9 | `devtools.sh` | OrbStack, kubectl, Postman, Google Cloud SDK, ChatGPT, Claude Code, Playwright CLI |
 | 9.5 | `claude/install.sh` | Copies `settings.json`, `commands/`, `skills/` into `~/.claude/`; registers MCP servers via `claude mcp add` |
+| 9.6 | `codex/install.sh` | Copies reusable skills into `~/.codex/skills/`; registers MCP servers via `codex mcp add` |
 | 10 | `tools.sh` | AppCleaner, Spotify, Slack, Messenger, Signal, Discord, Rectangle |
 | 11 | `macos.sh` | Dock (auto-hide, left), trackpad (tap-to-click, 3-finger drag, max speed), keyboard (Caps Lock→Control), input source shortcuts, Spotlight disabling |
 
@@ -105,6 +106,7 @@ This requires a `bootstrap.sh` that clones the repo to a temp directory and runs
 - Add versioned `global.json` for .NET SDK pinning
 - Add sync logic for VS Code extensions
 - Sync Claude Code settings and custom commands via this repo
+- Sync Codex skills and MCP setup via this repo
 
 ---
 

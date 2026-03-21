@@ -30,6 +30,8 @@ source ./essential.sh
 ./devtools.sh
 # Setup Claude Code configuration (settings, custom commands)
 ./claude/install.sh
+# Setup Codex configuration (skills, MCP)
+./codex/install.sh
 # Install other tools
 ./tools.sh
 
