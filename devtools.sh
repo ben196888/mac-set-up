@@ -6,8 +6,14 @@ echo "Installing developer tools..."
 # OrbStack (Docker + Linux VM)
 brew install --cask orbstack
 
+# Docker CLI
+brew install docker
+
 # kubectl (Kubernetes CLI)
 brew install kubectl
+
+# Helm (Kubernetes package manager)
+brew install helm
 
 # Postman
 brew install --cask postman
