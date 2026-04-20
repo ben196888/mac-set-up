@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 BASEDIR=$(dirname "$0")
 CLAUDE_DIR="$HOME/.claude"
@@ -31,7 +31,26 @@ should_overwrite() {
   esac
 }
 
+safe_replace_dir() {
+  local src="$1"
+  local dest="$2"
+  local parent="$3"
+
+  case "$dest" in
+    "$parent"/*) ;;
+    *)
+      echo "Refusing to replace unexpected path: $dest"
+      return 1
+      ;;
+  esac
+
+  rm -rf "$dest"
+  cp -R "$src" "$dest"
+}
+
 echo "Setting up Claude Code configuration..."
+
+mkdir -p "$CLAUDE_DIR"
 
 # Install global CLAUDE.md (user-level instructions)
 CLAUDE_MD_SRC="$BASEDIR/CLAUDE.md"
@@ -66,12 +85,33 @@ $INCOMING" 2>/dev/null) || true
   fi
 fi
 
-# Copy settings.json
+# Merge settings.json (repo is a subset; live entries take precedence, missing keys added)
 if [ ! -e "$CLAUDE_DIR/settings.json" ]; then
   cp "$BASEDIR/settings.json" "$CLAUDE_DIR/settings.json"
   echo "Copied settings.json"
 else
-  echo "settings.json already exists at $CLAUDE_DIR/settings.json — skipping"
+  python3 - <<EOF
+import json
+
+def deep_merge(base, overlay):
+    for k, v in overlay.items():
+        if k in base and isinstance(base[k], dict) and isinstance(v, dict):
+            deep_merge(base[k], v)
+        elif k not in base:
+            base[k] = v
+
+with open("$CLAUDE_DIR/settings.json") as f:
+    live = json.load(f)
+with open("$BASEDIR/settings.json") as f:
+    repo = json.load(f)
+
+deep_merge(live, repo)
+
+with open("$CLAUDE_DIR/settings.json", "w") as f:
+    json.dump(live, f, indent=2)
+    f.write("\n")
+EOF
+  echo "Merged settings.json"
 fi
 
 # Copy commands (per-file: prompt on existing, append new)
@@ -94,12 +134,13 @@ done
 
 # Copy skills (per-skill: prompt on existing, append new)
 mkdir -p "$CLAUDE_DIR/skills"
-for src in "$BASEDIR/skills"/*/; do
+for src in "$BASEDIR/../skills"/*/ "$BASEDIR/skills"/*/; do
+  [ -d "$src" ] || continue
   name=$(basename "$src")
   dest="$CLAUDE_DIR/skills/$name"
   if [ -e "$dest" ]; then
     if should_overwrite "$name" "Skill"; then
-      cp -r "$src" "$dest"
+      safe_replace_dir "$src" "$dest" "$CLAUDE_DIR/skills"
       echo "  → Overwritten: $name"
     else
       echo "  → Skipped: $name"
@@ -111,7 +152,9 @@ for src in "$BASEDIR/skills"/*/; do
 done
 
 # Register MCP servers via claude CLI (writes to ~/.claude.json at user scope)
-if claude mcp get discord >/dev/null 2>&1; then
+if ! command -v claude >/dev/null 2>&1; then
+  echo "Claude CLI not found — skipping MCP registration"
+elif claude mcp get discord >/dev/null 2>&1; then
   echo "Discord MCP already registered — skipping"
 else
   claude mcp add --scope user discord -- npx -y discord-mcp@latest
