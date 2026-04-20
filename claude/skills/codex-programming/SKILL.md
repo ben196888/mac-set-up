@@ -18,7 +18,7 @@ Run through these before generating the prompt:
 
 ## Output
 
-Generate the block below and present it to the user as a copyable prompt for `/codex:rescue`:
+Generate the delegation prompt using the template below, then immediately invoke the `codex:rescue` skill using the Skill tool, passing the prompt as the `args`. Do NOT just display it — call the skill.
 
 ````
 ---
@@ -50,7 +50,7 @@ effort: medium  # low | medium | high — raise for novel/complex tasks, lower f
 
 ---
 
-> **Continuing a task?** Use `/codex:rescue --resume <session-id>` rather than starting fresh — resuming preserves tool state and avoids re-reading the codebase from scratch.
+> **Continuing a task?** After generating the prompt, invoke `codex:rescue` via the Skill tool with `--resume <session-id>` as part of the args rather than starting fresh.
 
 > **Live context via MCP:** Attach external signals before delegating:
 > - CI failure: paste the exact failing step into the Context section
