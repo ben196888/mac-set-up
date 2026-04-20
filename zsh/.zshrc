@@ -1,10 +1,14 @@
 # Oh My Zsh core
 export ZSH="$HOME/.oh-my-zsh"
 plugins=(git gh)
-source $ZSH/oh-my-zsh.sh
+if [ -r "$ZSH/oh-my-zsh.sh" ]; then
+  source "$ZSH/oh-my-zsh.sh"
+fi
 
 # Starship prompt
-eval "$(starship init zsh)"
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
+fi
 
 # GPG: set TTY only if gpg is installed
 if command -v gpg >/dev/null 2>&1; then
@@ -17,10 +21,13 @@ if [[ "$TERM_PROGRAM" == "WarpTerminal" ]]; then
 fi
 
 # .NET SDK (add to PATH if installed via Homebrew or manually)
-/usr/local/share/dotnet/dotnet --info >/dev/null 2>&1 && {
-  export DOTNET_ROOT="/usr/local/share/dotnet"
-  export PATH="$DOTNET_ROOT:$PATH"
-}
+if command -v brew >/dev/null 2>&1; then
+  BREW_PREFIX="$(brew --prefix 2>/dev/null)"
+  if [ -n "$BREW_PREFIX" ] && [ -x "$BREW_PREFIX/share/dotnet/dotnet" ]; then
+    export DOTNET_ROOT="$BREW_PREFIX/share/dotnet"
+    export PATH="$DOTNET_ROOT:$PATH"
+  fi
+fi
 
 # Optional: enable Go environment variables if Go is installed
 if command -v go >/dev/null 2>&1; then
