@@ -1,15 +1,13 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 echo "Installing Node.js via n..."
 brew install n
 
-# Set up permissions for n
-sudo mkdir -p /usr/local/n
-sudo chown -R "$(whoami)" /usr/local/n
-
-sudo mkdir -p /usr/local/bin /usr/local/lib /usr/local/include /usr/local/share
-sudo chown -R "$(whoami)" /usr/local/bin /usr/local/lib /usr/local/include /usr/local/share
+# Keep n inside the user home directory instead of mutating /usr/local.
+export N_PREFIX="$HOME/.n"
+mkdir -p "$N_PREFIX"
+export PATH="$N_PREFIX/bin:$PATH"
 
 # Install Node LTS
 n lts

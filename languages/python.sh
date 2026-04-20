@@ -14,11 +14,12 @@ echo "Installing latest stable Python via pyenv..."
 LATEST=$(pyenv install --list | grep -E "^\s*3\.[0-9]+\.[0-9]+$" | tail -1 | tr -d ' ')
 pyenv install -s "$LATEST"
 pyenv global "$LATEST"
+pyenv rehash
 
 echo "Upgrading pip..."
-pip install --upgrade pip
+python -m pip install --upgrade pip
 
 echo "Installing Poetry..."
-curl -sSL https://install.python-poetry.org | python3 -
+curl -fsSL https://install.python-poetry.org | python3 -
 
 echo "Python setup complete using pyenv + poetry."
