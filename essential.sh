@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 # Create WebPrjcts directory if not exists
 mkdir -p ~/WebPrjcts
@@ -24,11 +24,11 @@ sudo xcode-select --switch /Library/Developer/CommandLineTools
 
 # Install Rosetta 2 (for Apple Silicon Macs)
 if [[ $(uname -m) == "arm64" ]]; then
-  if ! softwareupdate --list | grep -q "Rosetta"; then
+  if pkgutil --pkg-info com.apple.pkg.RosettaUpdateAuto >/dev/null 2>&1; then
+    echo "Rosetta 2 already installed."
+  else
     echo "Installing Rosetta 2..."
     softwareupdate --install-rosetta --agree-to-license
-  else
-    echo "Rosetta 2 already installed."
   fi
 fi
 
