@@ -15,14 +15,32 @@ Derive a kebab-case slug from the task name:
 - "fix login bug" → `fix-login-bug`
 - "review RFC 003" → `review-rfc-003`
 
+## Worktree Directory
+
+Default: `worktrees/<slug>`. To override, create `.worktree.conf` in the repo root:
+
+```
+WORKTREE_DIR=custom/path
+```
+
 ## Create
 
 ```bash
-bash .claude/skills/wt-create/scripts/create-worktree.sh <slug>
+SLUG="<slug>"
+BRANCH="worktree-${SLUG}"
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+WORKTREE_BASE="worktrees"
+CUSTOM=$(grep -E '^WORKTREE_DIR=' "${REPO_ROOT}/.worktree.conf" 2>/dev/null | cut -d= -f2-)
+[ -n "$CUSTOM" ] && WORKTREE_BASE="$CUSTOM"
+
+WORKTREE_PATH="${REPO_ROOT}/${WORKTREE_BASE}/${SLUG}"
+mkdir -p "${REPO_ROOT}/${WORKTREE_BASE}"
+git -C "${REPO_ROOT}" worktree add "${WORKTREE_PATH}" -b "${BRANCH}"
 ```
 
 If the `EnterWorktree` tool is available, use that instead — it manages the session path automatically.
 
-The worktree is created at `.claude/worktrees/<slug>` on branch `worktree-<slug>`.
+The worktree is created at `worktrees/<slug>` (or the path from `.worktree.conf`) on branch `worktree-<slug>`.
 
 When done with the task, use `/wt:close` to remove the worktree.

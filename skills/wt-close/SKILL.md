@@ -17,9 +17,20 @@ Only close when the task is truly done — PR merged, document published, issue 
 Confirm with the user that the task is complete, then:
 
 ```bash
-bash .claude/skills/wt-close/scripts/cleanup-worktree.sh <slug>
+SLUG="<slug>"
+BRANCH="worktree-${SLUG}"
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+WORKTREE_BASE="worktrees"
+CUSTOM=$(grep -E '^WORKTREE_DIR=' "${REPO_ROOT}/.worktree.conf" 2>/dev/null | cut -d= -f2-)
+[ -n "$CUSTOM" ] && WORKTREE_BASE="$CUSTOM"
+
+WORKTREE_PATH="${REPO_ROOT}/${WORKTREE_BASE}/${SLUG}"
+git -C "${REPO_ROOT}" worktree remove "${WORKTREE_PATH}" --force
+git -C "${REPO_ROOT}" branch -d "${BRANCH}" 2>/dev/null || git -C "${REPO_ROOT}" branch -D "${BRANCH}"
+git -C "${REPO_ROOT}" worktree prune
 ```
 
 If the `ExitWorktree` tool is available, use that with `action: remove` instead.
 
-To pause without removing the worktree, use `ExitWorktree` with `action: keep` (or skip running the cleanup script).
+To pause without removing the worktree, use `ExitWorktree` with `action: keep` (or skip the cleanup).
