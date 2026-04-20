@@ -1,0 +1,23 @@
+{
+  "skill_name": "wt:find",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "wt:find stripe",
+      "expected_output": "Ranked list showing worktree-stripe-refactor as best match, with path, branch name, last commit, and dirty status. Asks user to confirm before navigating.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "wt:find \"the auth thing from last week\"",
+      "expected_output": "Ranked list showing worktree with JWT/auth-related commits from ~7 days ago as best match. Semantic reasoning over commit messages, not just keyword match.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "wt:find \"that branch with the broken tests\"",
+      "expected_output": "Ranked list prioritizing worktrees with dirty test files or recent commits mentioning test failures. Shows dirty file list prominently.",
+      "files": []
+    }
+  ]
+}
