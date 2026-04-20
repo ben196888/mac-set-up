@@ -1,5 +1,5 @@
 ---
-name: codex-programming
+name: codex:programming
 description: Craft a structured /codex:rescue delegation prompt that gives Codex exactly the context it needs. Use this skill whenever the user wants to hand off a task to Codex, says "delegate to codex", "prepare a codex task", "write a rescue prompt", "send to codex", or is about to invoke /codex:rescue. Also trigger when the user wants to avoid stale-context failures when switching agents, asks how to structure a Codex handoff, or mentions /codex:rescue in any planning context. Invoke proactively when the user has identified a bug or task and Codex delegation makes sense.
 user-invocable: true
 ---
