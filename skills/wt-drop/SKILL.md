@@ -1,5 +1,5 @@
 ---
-name: wt:close
+name: wt:drop
 description: Clean up a git worktree after a task is complete. Removes the worktree directory and branch. Invoke when the task is fully done (PR merged, issue resolved, etc.).
 user-invocable: true
 ---

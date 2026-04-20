@@ -1,5 +1,5 @@
 ---
-name: wt:create
+name: wt:add
 description: Create a git worktree for a new task. Derives a kebab-case slug from the task name, creates a branch, and sets up an isolated working directory. Invoke at the start of any task that needs branch isolation.
 user-invocable: true
 ---
@@ -43,4 +43,4 @@ If the `EnterWorktree` tool is available, use that instead — it manages the se
 
 The worktree is created at `worktrees/<slug>` (or the path from `.worktree.conf`) on branch `worktree-<slug>`.
 
-When done with the task, use `/wt:close` to remove the worktree.
+When done with the task, use `/wt:drop` to remove the worktree.
