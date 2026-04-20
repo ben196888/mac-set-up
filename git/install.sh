@@ -12,6 +12,8 @@ GITCONFIG="$HOME/.gitconfig"
 GITIGNORE="$HOME/.gitignore_global"
 MAC_NAME=$(hostname)
 
+mkdir -p "$HOME/.ssh"
+
 # Copy Git configuration files if they don't already exist
 echo "Setting up Git configuration..."
 [ ! -f "$GITCONFIG" ] && cp "$BASEDIR/.gitconfig" "$GITCONFIG"
@@ -30,7 +32,6 @@ fi
 
 # Configure SSH
 echo "Configuring SSH..."
-mkdir -p "$HOME/.ssh"
 touch "$SSH_CONFIG"
 if ! grep -q "IdentityFile $SSH_KEY" "$SSH_CONFIG"; then
   cat <<EOF >> "$SSH_CONFIG"
