@@ -2,44 +2,49 @@
 
 ## Goal
 
-Add a `claude/` directory to this repo that manages personal Claude Code configuration, making it reproducible across machines alongside the rest of the dev environment setup.
+Manage personal Claude Code configuration in this repo so it's reproducible across machines alongside the rest of the dev environment setup.
 
-## What to add
+## Structure
 
-### `claude/install.sh`
+```
+claude/
+├── install.sh          # Copies everything into ~/.claude/; registers MCPs
+├── settings.json       # Global Claude Code preferences
+├── commands/           # Custom slash commands (one .md per command)
+│   ├── commit.md
+│   ├── review-pr.md
+│   └── simplify.md
+└── skills/             # Reusable skills loaded into every session
+    ├── codebase-search/
+    ├── development-workflow/
+    ├── rfc-writer/
+    ├── wt-create/
+    └── wt-close/
+```
 
-Installs Claude Code configuration into `~/.claude/` via copy (not symlink):
-- `settings.json` → `~/.claude/settings.json`
-- `commands/` → `~/.claude/commands/`
-- `skills/` → `~/.claude/skills/`
+## Install
 
-### `claude/settings.json`
+`claude/install.sh` runs after `devtools.sh` in the root `install.sh`:
 
-Personal Claude Code global preferences. Starts from the current `~/.claude/settings.json` and tracks changes over time.
+- Copies `settings.json` → `~/.claude/settings.json`
+- Copies `commands/` → `~/.claude/commands/`
+- Copies `skills/` → `~/.claude/skills/`
+- Registers MCP servers via `claude mcp add --scope user` when the Claude CLI is available
 
-### `claude/commands/`
+## Skills
 
-Custom slash commands (`.md` files). Each file defines a reusable prompt invokable via `/command-name` in any Claude Code session.
+Skills are plain SKILL.md files with optional `scripts/` subdirs. No external package manager.
 
-Candidates to add:
-- `/commit` — staged diff → conventional commit message
-- `/review-pr` — review open PR, summarize findings
-- `/simplify` — review changed code for reuse, quality, and efficiency
+Shared skills between Claude and Codex live in their respective directories and are kept in sync manually (or can be extracted to a top-level `skills/` dir with both installers copying from there if duplication becomes a maintenance burden).
 
-### `claude/skills/` ✅
+### Worktree skills
 
-Skills that shape Claude's persistent behavior across all sessions.
+`wt-create` and `wt-close` manage git worktrees:
 
-- `development-workflow` ✅ — 4-step dev cycle (Plan → Ask → Document → Implement)
-- `search-code` ✅ — agent-optimized search strategy (rg → ast-grep → git)
-
-## Integration
-
-- Call `claude/install.sh` from the root `install.sh` after `devtools.sh` (step 9) ✅
-- Update architecture table in `README.md` and `CLAUDE.md` to include the new `claude/` step ✅
+- Default path: `worktrees/<slug>`
+- Override: create `.worktree.conf` in the repo root with `WORKTREE_DIR=custom/path`
 
 ## Out of scope
 
-- MCP server configuration (separate plan if needed)
-- Per-project `CLAUDE.md` templates (separate plan if needed)
 - Hooks (separate plan if needed)
+- Per-project `CLAUDE.md` templates (separate plan if needed)
