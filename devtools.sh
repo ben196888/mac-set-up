@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 echo "Installing developer tools..."
 
@@ -25,12 +25,20 @@ brew install --cask google-cloud-sdk
 brew install --cask chatgpt
 
 # Claude Code (AI coding assistant)
-echo "Installing Claude Code..."
-curl -fsSL https://claude.ai/install.sh | bash
+if ! command -v claude >/dev/null 2>&1; then
+  echo "Installing Claude Code..."
+  curl -fsSL https://claude.ai/install.sh | bash
+else
+  echo "Claude Code already installed — skipping"
+fi
 
 # Playwright CLI (browser automation)
 if ! command -v playwright >/dev/null 2>&1; then
   echo "Installing Playwright..."
+  if ! command -v npm >/dev/null 2>&1 || ! command -v npx >/dev/null 2>&1; then
+    echo "Node.js/npm is required before installing Playwright."
+    exit 1
+  fi
   npm install -g playwright
   npx playwright install
 else
