@@ -30,9 +30,9 @@ bash "$SCRIPT_DIR/ides.sh"
 bash "$SCRIPT_DIR/browsers.sh"
 # Install developer tools (orbstack, kubectl, postman, google cloud SDK)
 bash "$SCRIPT_DIR/devtools.sh"
-# Setup Claude Code configuration (settings, custom commands)
+# Setup Claude Code instructions, skills, and MCP
 bash "$SCRIPT_DIR/claude/install.sh"
-# Setup Codex configuration (skills, MCP)
+# Setup Codex instructions, skills, and MCP
 bash "$SCRIPT_DIR/codex/install.sh"
 # Install other tools
 bash "$SCRIPT_DIR/tools.sh"
