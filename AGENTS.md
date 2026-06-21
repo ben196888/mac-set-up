@@ -30,8 +30,8 @@ There are no build, lint, or test commands. This is a shell-based installer with
 7. **`ides.sh`** - VS Code, Cursor
 8. **`browsers.sh`** - Firefox, Chrome, Edge, DuckDuckGo
 9. **`devtools.sh`** - OrbStack, kubectl, Postman, Google Cloud SDK, ChatGPT, Claude Code, Playwright CLI
-10. **`claude/install.sh`** - Copies Claude instructions; installs Homunculus and Caveman skills via `npx skills`; registers MCP servers
-11. **`codex/install.sh`** - Copies Codex instructions; installs Homunculus and Caveman skills via `npx skills`; registers MCP servers
+10. **`claude/install.sh`** - Copies Claude instructions; installs Homunculus, Caveman, and Ponytail skills via `npx skills`; registers MCP servers
+11. **`codex/install.sh`** - Copies Codex instructions; installs Homunculus, Caveman, and Ponytail skills via `npx skills`; registers MCP servers
 12. **`tools.sh`** - AppCleaner, Spotify, Slack, Messenger, Signal, Discord, Rectangle
 13. **`macos.sh`** - System defaults such as Dock, trackpad, keyboard, and Spotlight configuration
 
@@ -39,6 +39,6 @@ There are no build, lint, or test commands. This is a shell-based installer with
 
 - Always use the `BREW_PREFIX` variable from `essential.sh` instead of hardcoding Homebrew paths.
 - Config files live alongside their installers and are copied into place. Do not switch this repo to symlink-based setup.
-- Personal agentic skills live in `ben196888/Homunculus`; Caveman skills come from `JuliusBrussee/caveman`. Install reusable agent behavior with `npx skills add`.
+- Personal agentic skills live in `ben196888/Homunculus`; Caveman skills come from `JuliusBrussee/caveman`; Ponytail skills come from `DietrichGebert/ponytail`. Install reusable agent behavior with `npx skills add`.
 - Shell profile additions should be conditional so a missing tool does not break the shell.
 - Prefer `cp` and `cp -r` for installation steps.

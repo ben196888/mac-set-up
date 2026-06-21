@@ -19,8 +19,8 @@ Automate the installation and configuration of a full macOS development environm
 | 7 | `ides.sh` | VS Code, Cursor |
 | 8 | `browsers.sh` | Firefox (set as default), Chrome, Edge, DuckDuckGo |
 | 9 | `devtools.sh` | OrbStack, kubectl, Postman, Google Cloud SDK, ChatGPT, Claude Code, Playwright CLI |
-| 9.5 | `claude/install.sh` | Copies Claude instructions; installs Homunculus and Caveman skills via `npx skills`; registers MCP servers via `claude mcp add` |
-| 9.6 | `codex/install.sh` | Copies Codex instructions; installs Homunculus and Caveman skills via `npx skills`; registers MCP servers via `codex mcp add` |
+| 9.5 | `claude/install.sh` | Copies Claude instructions; installs Homunculus, Caveman, and Ponytail skills via `npx skills`; registers MCP servers via `claude mcp add` |
+| 9.6 | `codex/install.sh` | Copies Codex instructions; installs Homunculus, Caveman, and Ponytail skills via `npx skills`; registers MCP servers via `codex mcp add` |
 | 10 | `tools.sh` | AppCleaner, Spotify, Slack, Messenger, Signal, Discord, Rectangle |
 | 11 | `macos.sh` | Dock (auto-hide, left), trackpad (tap-to-click, 3-finger drag, max speed), keyboard (Caps Lock→Control), input source shortcuts, Spotlight disabling |
 
@@ -86,6 +86,7 @@ chmod +x install.sh
 - You can export/import GUI app settings (like Rectangle) separately if needed
 - Personal agentic skills live in [Homunculus](https://github.com/ben196888/Homunculus) and are installed with `npx skills add ben196888/Homunculus`
 - Caveman is installed as skills from `JuliusBrussee/caveman`; this repo keeps reusable agent behavior in skill repositories.
+- Ponytail is installed as skills from `DietrichGebert/ponytail`.
 
 ---
 

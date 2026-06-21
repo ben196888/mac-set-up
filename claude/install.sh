@@ -5,6 +5,7 @@ BASEDIR=$(dirname "$0")
 CLAUDE_DIR="$HOME/.claude"
 HOMUNCULUS_SKILLS_PACKAGE="ben196888/Homunculus"
 CAVEMAN_SKILLS_PACKAGE="JuliusBrussee/caveman"
+PONYTAIL_SKILLS_PACKAGE="DietrichGebert/ponytail"
 
 # Parse flags
 YES=false
@@ -43,6 +44,8 @@ install_agentic_skills() {
   echo "Installed Homunculus skills for Claude Code"
   npx skills add "$CAVEMAN_SKILLS_PACKAGE" --skill '*' --agent claude-code --copy -g -y
   echo "Installed Caveman skills for Claude Code"
+  npx skills add "$PONYTAIL_SKILLS_PACKAGE" --skill '*' --agent claude-code --copy -g -y
+  echo "Installed Ponytail skills for Claude Code"
 }
 
 echo "Setting up Claude Code configuration..."

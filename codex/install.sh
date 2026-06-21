@@ -5,6 +5,7 @@ BASEDIR=$(dirname "$0")
 CODEX_DIR="$HOME/.codex"
 HOMUNCULUS_SKILLS_PACKAGE="ben196888/Homunculus"
 CAVEMAN_SKILLS_PACKAGE="JuliusBrussee/caveman"
+PONYTAIL_SKILLS_PACKAGE="DietrichGebert/ponytail"
 
 # Parse flags
 YES=false
@@ -43,6 +44,8 @@ install_agentic_skills() {
   echo "Installed Homunculus skills for Codex"
   npx skills add "$CAVEMAN_SKILLS_PACKAGE" --skill '*' --agent codex --copy -g -y
   echo "Installed Caveman skills for Codex"
+  npx skills add "$PONYTAIL_SKILLS_PACKAGE" --skill '*' --agent codex --copy -g -y
+  echo "Installed Ponytail skills for Codex"
 }
 
 echo "Setting up Codex configuration..."
