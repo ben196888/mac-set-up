@@ -19,66 +19,44 @@ Options:
 EOF
 }
 
-mcp_command_args() {
-  local requested_mcp="$1"
+install_mcps() {
+  local cli="$1"
+  local display="$2"
+  local scope_flag="${3:-}"
+  local scope_args=()
+
+  if ! command -v "$cli" >/dev/null 2>&1; then
+    echo "$display CLI not found - skipping MCP registration"
+    return 0
+  fi
+
+  if [ -n "$scope_flag" ]; then
+    read -r -a scope_args <<< "$scope_flag"
+  fi
+
   local mcp_name
   local mcp_command
   local mcp
-
+  local -a command_args
   for mcp in "${AGENTIC_MCPS[@]}"; do
     IFS='|' read -r mcp_name mcp_command <<< "$mcp"
-    if [ "$mcp_name" = "$requested_mcp" ]; then
-      read -r -a MCP_COMMAND <<< "$mcp_command"
-      return 0
+    if "$cli" mcp get "$mcp_name" >/dev/null 2>&1; then
+      echo "$mcp_name MCP already registered for $display - skipping"
+      continue
     fi
-  done
 
-  echo "Unknown MCP server: $requested_mcp" >&2
-  return 1
+    read -r -a command_args <<< "$mcp_command"
+    "$cli" mcp add "${scope_args[@]}" "$mcp_name" -- "${command_args[@]}"
+    echo "Registered $mcp_name MCP server for $display"
+  done
 }
 
 install_claude_mcps() {
-  if ! command -v claude >/dev/null 2>&1; then
-    echo "Claude CLI not found - skipping MCP registration"
-    return 0
-  fi
-
-  local mcp_name
-  local mcp_command
-  local mcp
-  for mcp in "${AGENTIC_MCPS[@]}"; do
-    IFS='|' read -r mcp_name mcp_command <<< "$mcp"
-    if claude mcp get "$mcp_name" >/dev/null 2>&1; then
-      echo "$mcp_name MCP already registered for Claude Code - skipping"
-      continue
-    fi
-
-    mcp_command_args "$mcp_name"
-    claude mcp add --scope user "$mcp_name" -- "${MCP_COMMAND[@]}"
-    echo "Registered $mcp_name MCP server for Claude Code"
-  done
+  install_mcps "claude" "Claude Code" "--scope user"
 }
 
 install_codex_mcps() {
-  if ! command -v codex >/dev/null 2>&1; then
-    echo "Codex CLI not found - skipping MCP registration"
-    return 0
-  fi
-
-  local mcp_name
-  local mcp_command
-  local mcp
-  for mcp in "${AGENTIC_MCPS[@]}"; do
-    IFS='|' read -r mcp_name mcp_command <<< "$mcp"
-    if codex mcp get "$mcp_name" >/dev/null 2>&1; then
-      echo "$mcp_name MCP already registered for Codex - skipping"
-      continue
-    fi
-
-    mcp_command_args "$mcp_name"
-    codex mcp add "$mcp_name" -- "${MCP_COMMAND[@]}"
-    echo "Registered $mcp_name MCP server for Codex"
-  done
+  install_mcps "codex" "Codex"
 }
 
 if [ "$#" -ne 1 ]; then

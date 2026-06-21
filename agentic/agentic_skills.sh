@@ -38,12 +38,12 @@ install_agentic_skills() {
   done
 }
 
-if [ "$#" -ne 1 ]; then
+if [ "$#" -gt 1 ]; then
   usage >&2
   exit 1
 fi
 
-case "$1" in
+case "${1:-}" in
   --claude)
     install_agentic_skills "claude-code" "Claude Code"
     ;;

@@ -43,113 +43,92 @@ should_overwrite() {
 
 install_claude_entry() {
   local claude_dir="$HOME/.claude"
-  local src="$SCRIPT_DIR/CLAUDE.md"
-  local dest="$claude_dir/CLAUDE.md"
-
   mkdir -p "$claude_dir"
-
-  if [ ! -e "$dest" ]; then
-    cp "$src" "$dest"
-    echo "Copied global CLAUDE.md"
-  elif diff -q "$src" "$dest" >/dev/null 2>&1; then
-    echo "CLAUDE.md already up to date - skipping"
-  else
-    echo "CLAUDE.md exists and differs from source - merging with Claude Code..."
-    local existing
-    local incoming
-    local merged
-    existing=$(cat "$dest")
-    incoming=$(cat "$src")
-    merged=$(claude -p --no-input "You are merging two CLAUDE.md files into one. Preserve all unique instructions from both. Remove exact duplicates. Keep the result well-organized with clear markdown headings. Output ONLY the merged file content, no explanation.
-
---- EXISTING ~/.claude/CLAUDE.md ---
-$existing
-
---- INCOMING agentic/CLAUDE.md ---
-$incoming" 2>/dev/null) || true
-    if [ -n "$merged" ]; then
-      echo "$merged" > "$dest"
-      echo "  -> Merged CLAUDE.md with Claude Code"
-    else
-      echo "  -> Claude Code merge failed - falling back to prompt"
-      if should_overwrite "CLAUDE.md" "File"; then
-        cp "$src" "$dest"
-        echo "  -> Overwritten: CLAUDE.md"
-      else
-        echo "  -> Skipped: CLAUDE.md"
-      fi
-    fi
-  fi
+  install_entry "$SCRIPT_DIR/CLAUDE.md" "$claude_dir/CLAUDE.md" "Claude Code" "claude -p --no-input"
 }
 
 install_codex_entry() {
   local codex_dir="$HOME/.codex"
-  local src="$SCRIPT_DIR/AGENTS.md"
-  local dest="$codex_dir/AGENTS.md"
-
   mkdir -p "$codex_dir"
+  install_entry "$SCRIPT_DIR/AGENTS.md" "$codex_dir/AGENTS.md" "Codex" "codex exec -q"
+}
+
+install_entry() {
+  local src="$1"
+  local dest="$2"
+  local display="$3"
+  local merge_cmd="$4"
+  local name
+  name="$(basename "$dest")"
 
   if [ ! -e "$dest" ]; then
     cp "$src" "$dest"
-    echo "Copied global AGENTS.md"
+    echo "Copied global $name"
   elif diff -q "$src" "$dest" >/dev/null 2>&1; then
-    echo "AGENTS.md already up to date - skipping"
+    echo "$name already up to date - skipping"
   else
-    echo "AGENTS.md exists and differs from source - merging with Codex..."
+    echo "$name exists and differs from source - merging with $display..."
     local existing
     local incoming
     local merged
+    local prompt
+    local -a merge_args
     existing=$(cat "$dest")
     incoming=$(cat "$src")
-    merged=$(codex exec -q "You are merging two AGENTS.md files into one. Preserve all unique instructions from both. Remove exact duplicates. Keep the result well-organized with clear markdown headings. Output ONLY the merged file content, no explanation.
+    prompt="You are merging two $name files into one. Preserve all unique instructions from both. Remove exact duplicates. Keep the result well-organized with clear markdown headings. Output ONLY the merged file content, no explanation.
 
---- EXISTING ~/.codex/AGENTS.md ---
+--- EXISTING $dest ---
 $existing
 
---- INCOMING agentic/AGENTS.md ---
-$incoming" 2>/dev/null) || true
+--- INCOMING $src ---
+$incoming"
+    read -r -a merge_args <<< "$merge_cmd"
+    merged=$("${merge_args[@]}" "$prompt" 2>/dev/null) || true
     if [ -n "$merged" ]; then
-      echo "$merged" > "$dest"
-      echo "  -> Merged AGENTS.md with Codex"
+      printf '%s\n' "$merged" > "$dest"
+      echo "  -> Merged $name with $display"
     else
-      echo "  -> Codex merge failed - falling back to prompt"
-      if should_overwrite "AGENTS.md" "File"; then
+      echo "  -> $display merge failed - falling back to prompt"
+      if should_overwrite "$name" "File"; then
         cp "$src" "$dest"
-        echo "  -> Overwritten: AGENTS.md"
+        echo "  -> Overwritten: $name"
       else
-        echo "  -> Skipped: AGENTS.md"
+        echo "  -> Skipped: $name"
       fi
     fi
   fi
 }
 
-for arg in "$@"; do
-  case "$arg" in
-    --claude|--codex|--all)
-      if [ -n "$TARGET" ]; then
-        usage >&2
-        exit 1
-      fi
-      TARGET="$arg"
-      ;;
-    -y|--yes)
-      YES=true
-      ;;
-    -h|--help)
-      usage
-      exit 0
-      ;;
-    *)
-      usage >&2
-      exit 1
-      ;;
-  esac
-done
+case "${1:-}" in
+  --claude|--codex|--all)
+    TARGET="$1"
+    ;;
+  -h|--help)
+    usage
+    exit 0
+    ;;
+  *)
+    usage >&2
+    exit 1
+    ;;
+esac
 
-if [ -z "$TARGET" ]; then
+if [ "$#" -gt 2 ]; then
   usage >&2
   exit 1
 fi
+
+case "${2:-}" in
+  "")
+    ;;
+  -y|--yes)
+    YES=true
+    ;;
+  *)
+    usage >&2
+    exit 1
+    ;;
+esac
 
 case "$TARGET" in
   --claude)
