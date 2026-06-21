@@ -30,8 +30,8 @@ There are no build, lint, or test commands — this is a shell-based installer w
 7. **`ides.sh`** — VS Code, Cursor
 8. **`browsers.sh`** — Firefox (default), Chrome, Edge, DuckDuckGo
 9. **`devtools.sh`** — OrbStack, Docker CLI, kubectl, Helm, Postman, Google Cloud SDK, ChatGPT, Claude Code, Playwright CLI
-9.5. **`claude/install.sh`** — Copies Claude instructions; installs Homunculus and Caveman skills via `npx skills`; registers MCP servers via `claude mcp add`
-9.6. **`codex/install.sh`** — Copies Codex instructions; installs Homunculus and Caveman skills via `npx skills`; registers MCP servers via `codex mcp add`
+9.5. **`claude/install.sh`** — Copies Claude instructions; installs agentic skills from `agentic_skills.sh`; registers MCP servers via `claude mcp add`
+9.6. **`codex/install.sh`** — Copies Codex instructions; installs agentic skills from `agentic_skills.sh`; registers MCP servers via `codex mcp add`
 10. **`tools.sh`** — AppCleaner, Spotify, Slack, Messenger, Signal, Discord, Rectangle
 11. **`macos.sh`** — System defaults: Dock (auto-hide, left position), trackpad (tap-to-click, 3-finger drag, max speed), keyboard (Caps Lock→Control), input source shortcuts, Spotlight disabling
 
@@ -40,5 +40,5 @@ There are no build, lint, or test commands — this is a shell-based installer w
 - **Homebrew prefix**: Always use the `BREW_PREFIX` variable (set in `essential.sh` based on arch) rather than hardcoding paths. `/opt/homebrew` on Apple Silicon, `/usr/local` on Intel.
 - **Conditional tool init in `.zshrc`**: All tool initializations (pyenv, Poetry, SDKMAN, etc.) are wrapped in `command -v <tool> >/dev/null 2>&1` guards so the shell doesn't break if a tool isn't installed.
 - **Config files live alongside installers**: `git/.gitconfig` and `git/.gitignore_global` are copied by `git/install.sh`; `zsh/.zshrc` is managed by `zsh/install.sh`.
-- **Agentic skills source of truth**: Personal skills live in `ben196888/Homunculus` and Caveman skills come from `JuliusBrussee/caveman`; install reusable agent behavior with `npx skills add`.
+- **Agentic skills source of truth**: Manage reusable agent skill repositories in `agentic_skills.sh`; both Claude and Codex installers consume that file with `npx skills add`.
 - **Always use `cp`, never symlinks**: All install scripts must copy files/directories to their destination (e.g. `cp`, `cp -r`). Never use `ln -s` or `ln -sf`. This is a hard rule — do not change it.

@@ -3,9 +3,7 @@ set -euo pipefail
 
 BASEDIR=$(dirname "$0")
 CLAUDE_DIR="$HOME/.claude"
-HOMUNCULUS_SKILLS_PACKAGE="ben196888/Homunculus"
-CAVEMAN_SKILLS_PACKAGE="JuliusBrussee/caveman"
-PONYTAIL_SKILLS_PACKAGE="DietrichGebert/ponytail"
+source "$BASEDIR/../agentic_skills.sh"
 
 # Parse flags
 YES=false
@@ -40,12 +38,14 @@ install_agentic_skills() {
     return 0
   fi
 
-  npx skills add "$HOMUNCULUS_SKILLS_PACKAGE" --skill '*' --agent claude-code --copy -g -y
-  echo "Installed Homunculus skills for Claude Code"
-  npx skills add "$CAVEMAN_SKILLS_PACKAGE" --skill '*' --agent claude-code --copy -g -y
-  echo "Installed Caveman skills for Claude Code"
-  npx skills add "$PONYTAIL_SKILLS_PACKAGE" --skill '*' --agent claude-code --copy -g -y
-  echo "Installed Ponytail skills for Claude Code"
+  local skill_name
+  local skill_package
+  local skill
+  for skill in "${AGENTIC_SKILLS[@]}"; do
+    IFS='|' read -r skill_name skill_package <<< "$skill"
+    npx skills add "$skill_package" --skill '*' --agent claude-code --copy -g -y
+    echo "Installed $skill_name skills for Claude Code"
+  done
 }
 
 echo "Setting up Claude Code configuration..."
