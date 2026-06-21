@@ -2,19 +2,22 @@
 
 ## Goal
 
-Configure Discord MCP server in Claude Code so Claude can interact with Discord.
+Configure Discord MCP server for agentic tools.
 
 ## Approach
 
-- `claude/install.sh` registers Discord MCP at user scope via `claude mcp add`
-- Config is written to `~/.claude.json` (not `~/.claude/mcp.json` — that path is not read by Claude Code)
-- Idempotent: checks `claude mcp get discord` before registering
+- `agentic/agentic_mcp.sh` registers Discord MCP for Claude Code and Codex
+- `agentic/agentic.conf` defines the Discord MCP command
+- Claude Code config is written to `~/.claude.json` at user scope
+- Codex config is managed through `codex mcp add`
+- Idempotent: checks the target agent's `mcp get discord` before registering
 - Token is NOT hardcoded — must be set as an environment variable before use
 
 ## Install command
 
 ```bash
 claude mcp add --scope user discord -- npx -y discord-mcp@latest
+codex mcp add discord -- npx -y discord-mcp@latest
 ```
 
 ## Environment variable (required)

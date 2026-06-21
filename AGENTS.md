@@ -13,7 +13,7 @@ chmod +x install.sh
 ./install.sh
 ```
 
-Individual scripts can also be run directly, for example `./languages/python.sh` or `./codex/install.sh`.
+Individual scripts can also be run directly, for example `./languages/python.sh` or `./agentic/agentic_skills.sh --codex`.
 
 There are no build, lint, or test commands. This is a shell-based installer with no automated test suite.
 
@@ -30,15 +30,14 @@ There are no build, lint, or test commands. This is a shell-based installer with
 7. **`ides.sh`** - VS Code, Cursor
 8. **`browsers.sh`** - Firefox, Chrome, Edge, DuckDuckGo
 9. **`devtools.sh`** - OrbStack, kubectl, Postman, Google Cloud SDK, ChatGPT, Claude Code, Playwright CLI
-10. **`claude/install.sh`** - Copies Claude instructions; installs agentic skills from `agentic_skills.sh`; registers MCP servers
-11. **`codex/install.sh`** - Copies Codex instructions; installs agentic skills from `agentic_skills.sh`; registers MCP servers
-12. **`tools.sh`** - AppCleaner, Spotify, Slack, Messenger, Signal, Discord, Rectangle
-13. **`macos.sh`** - System defaults such as Dock, trackpad, keyboard, and Spotlight configuration
+10. **`agentic/install.sh`** - Agentic instructions, skills, and MCP setup
+11. **`tools.sh`** - AppCleaner, Spotify, Slack, Messenger, Signal, Discord, Rectangle
+12. **`macos.sh`** - System defaults such as Dock, trackpad, keyboard, and Spotlight configuration
 
 ## Key Conventions
 
 - Always use the `BREW_PREFIX` variable from `essential.sh` instead of hardcoding Homebrew paths.
 - Config files live alongside their installers and are copied into place. Do not switch this repo to symlink-based setup.
-- Manage reusable agent skill repositories in `agentic_skills.sh`; both Claude and Codex installers consume that file with `npx skills add`.
+- Manage reusable agent setup through `agentic/install.sh`; configuration lives in `agentic/agentic.conf`.
 - Shell profile additions should be conditional so a missing tool does not break the shell.
 - Prefer `cp` and `cp -r` for installation steps.

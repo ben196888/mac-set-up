@@ -19,10 +19,9 @@ Automate the installation and configuration of a full macOS development environm
 | 7 | `ides.sh` | VS Code, Cursor |
 | 8 | `browsers.sh` | Firefox (set as default), Chrome, Edge, DuckDuckGo |
 | 9 | `devtools.sh` | OrbStack, kubectl, Postman, Google Cloud SDK, ChatGPT, Claude Code, Playwright CLI |
-| 9.5 | `claude/install.sh` | Copies Claude instructions; installs agentic skills from `agentic_skills.sh`; registers MCP servers via `claude mcp add` |
-| 9.6 | `codex/install.sh` | Copies Codex instructions; installs agentic skills from `agentic_skills.sh`; registers MCP servers via `codex mcp add` |
-| 10 | `tools.sh` | AppCleaner, Spotify, Slack, Messenger, Signal, Discord, Rectangle |
-| 11 | `macos.sh` | Dock (auto-hide, left), trackpad (tap-to-click, 3-finger drag, max speed), keyboard (Caps Lock→Control), input source shortcuts, Spotlight disabling |
+| 10 | `agentic/install.sh` | Agentic instructions, skills, and MCP setup |
+| 11 | `tools.sh` | AppCleaner, Spotify, Slack, Messenger, Signal, Discord, Rectangle |
+| 12 | `macos.sh` | Dock (auto-hide, left), trackpad (tap-to-click, 3-finger drag, max speed), keyboard (Caps Lock→Control), input source shortcuts, Spotlight disabling |
 
 Config files (`git/.gitconfig`, `git/.gitignore_global`, `zsh/.zshrc`) live alongside their installer scripts and are symlinked/copied during setup.
 
@@ -84,7 +83,7 @@ chmod +x install.sh
 - All `.zshrc` additions are conditional to avoid errors if tools aren't installed
 - `macos.sh` applies safe `defaults write` and `hidutil` changes (some may require logout/reboot)
 - You can export/import GUI app settings (like Rectangle) separately if needed
-- Reusable agent skill repositories are managed in `agentic_skills.sh`; Claude and Codex installers consume that file with `npx skills add`.
+- Reusable agent setup is managed through `agentic/install.sh`; configuration lives in `agentic/agentic.conf`.
 
 ---
 
