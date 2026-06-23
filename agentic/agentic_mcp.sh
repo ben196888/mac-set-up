@@ -22,16 +22,12 @@ EOF
 install_mcps() {
   local cli="$1"
   local display="$2"
-  local scope_flag="${3:-}"
-  local scope_args=()
+  local scope_name="${3:-}"
+  local scope_value="${4:-}"
 
   if ! command -v "$cli" >/dev/null 2>&1; then
     echo "$display CLI not found - skipping MCP registration"
     return 0
-  fi
-
-  if [ -n "$scope_flag" ]; then
-    read -r -a scope_args <<< "$scope_flag"
   fi
 
   local mcp_name
@@ -46,13 +42,17 @@ install_mcps() {
     fi
 
     read -r -a command_args <<< "$mcp_command"
-    "$cli" mcp add "${scope_args[@]}" "$mcp_name" -- "${command_args[@]}"
+    if [ -n "$scope_name" ]; then
+      "$cli" mcp add "$scope_name" "$scope_value" "$mcp_name" -- "${command_args[@]}"
+    else
+      "$cli" mcp add "$mcp_name" -- "${command_args[@]}"
+    fi
     echo "Registered $mcp_name MCP server for $display"
   done
 }
 
 install_claude_mcps() {
-  install_mcps "claude" "Claude Code" "--scope user"
+  install_mcps "claude" "Claude Code" "--scope" "user"
 }
 
 install_codex_mcps() {
