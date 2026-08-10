@@ -1,3 +1,8 @@
+# Homebrew (Apple Silicon)
+if [ -x /opt/homebrew/bin/brew ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 # Oh My Zsh core
 export ZSH="$HOME/.oh-my-zsh"
 plugins=(git gh)
